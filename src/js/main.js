@@ -15,7 +15,6 @@ const navLogoElement = document.getElementById("navLogo")
 
 
 
-
 //*----------------NAVBAR btn------------------- */
 
 

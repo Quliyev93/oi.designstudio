@@ -3,6 +3,7 @@ const categoryAllElement = document.getElementById("cat");
 const categoryInElement = document.getElementById("catIn");
 const categoryExElement = document.getElementById("catEx");
 const categoryArElement = document.getElementById("catAr");
+const inputElementSpeed = document.querySelector(".searchInputSpeed");
 
 
 
@@ -147,5 +148,36 @@ function addButtonEventListeners() {
     });
 }
 
+
+
+//*----------------search input design------------------- */
+const searchBtnCL = document.querySelectorAll(".searchBtnCL");
+console.log(searchBtnCL);
+if (inputElementSpeed) {
+    searchBtnCL.forEach(searchBtn => {
+        searchBtn.addEventListener("click", () => {
+            let searchText = inputElementSpeed.value.toLocaleLowerCase();
+            const AllDesign = document.querySelectorAll(".design_card");
+            let foundMatch = false;
+            AllDesign.forEach(designElement => {
+                let designText = designElement.textContent.toLocaleLowerCase();
+
+                if (designText.includes(searchText)) {
+                    designElement.style.display = "block";
+                    foundMatch = true;
+                } else {
+                    designElement.style.display = "none";
+                }
+            });
+
+            if (!foundMatch && searchText !== "") {
+                alert("Bu axtarış tapılmadı!");
+            }
+        });
+    })
+
+} else {
+    console.log("Bu axtarış tapılmadı!");
+}
 
 
