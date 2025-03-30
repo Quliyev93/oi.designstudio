@@ -1,4 +1,4 @@
-// Select DOM elements
+// DOM öğelerini seç
 const nextBtn = document.querySelector(".next");
 const prevBtn = document.querySelector(".prev");
 const carousel = document.querySelector(".carousel");
@@ -6,16 +6,16 @@ const list = document.querySelector(".list");
 const items = Array.from(document.querySelectorAll(".item"));
 const runningTimeBar = document.querySelector(".carousel .timeRunning");
 
-// Timing configurations
-const TIME_RUNNING = 1500; // Animation duration for the transition
-const TIME_AUTO_NEXT = 3500; // Auto-slide duration
+// Zaman ayarları
+const TIME_RUNNING = 1500; // Geçiş süresi
+const TIME_AUTO_NEXT = 3500; // Otomatik slayt süresi
 
-// Initialize timeout variables
+// Zamanlayıcı değişkenleri
 let transitionTimeout;
 let autoNextTimeout;
-let isTransitioning = false; // Geçiş sırasında yeni slayda geçişi engellemek için
+let isTransitioning = false; // Geçiş sırasında engelleme için
 
-// Create and append the progress bar
+// Progress bar oluştur ve ekle
 const arrowsDiv = document.querySelector(".arrows");
 const progressBarContainer = document.createElement("div");
 progressBarContainer.className = "progress-bar-container";
@@ -26,63 +26,67 @@ progressBar.className = "progress-bar";
 progressBarContainer.appendChild(progressBar);
 arrowsDiv.appendChild(progressBarContainer);
 
-// Event listeners for navigation buttons
+// Butonlara olay dinleyicileri ekle
 nextBtn.addEventListener("click", () => handleSliderNavigation("next"));
 prevBtn.addEventListener("click", () => handleSliderNavigation("prev"));
 
-// Add attribute to each item
+// Her item'a data-item ekle
 items.forEach((item, index) => {
     item.querySelector(".title").setAttribute("data-item", index + 1);
 });
 
-// Automatically navigate to the next slide
-autoNextTimeout = setTimeout(() => {
-    if (!isTransitioning) {
-        nextBtn.click();
-    }
-}, TIME_AUTO_NEXT);
+// Otomatik slayt değişimini başlat
+startAutoSlide();
 
-// Start the initial running time animation and progress bar
+// Slayt değişimi sonrası güncelle
 afterSlideChange();
 
-// Handles slider navigation (next/prev)
+// **Slayt Değiştirme Fonksiyonu**
 function handleSliderNavigation(direction) {
     if (isTransitioning) return; // Eğer geçiş devam ediyorsa, yeni bir geçişi engelle
 
-    isTransitioning = true; // Yeni bir geçiş başlatıldığında geçiş durumunu güncelle
+    isTransitioning = true; // Geçiş başladığında kilitle
 
-    const sliderItems = list.querySelectorAll(".item"); // Get all current items in the list
+    const sliderItems = list.querySelectorAll(".item");
 
     if (direction === "next") {
-        list.appendChild(sliderItems[0]); // Move the first item to the end of the list
-        carousel.classList.add("next"); // Add the "next" class for transition
+        list.appendChild(sliderItems[0]); // İlk öğeyi sona taşı
+        carousel.classList.add("next");
     } else if (direction === "prev") {
-        list.prepend(sliderItems[sliderItems.length - 1]); // Move the last item to the start of the list
-        carousel.classList.add("prev"); // Add the "prev" class for transition
+        list.prepend(sliderItems[sliderItems.length - 1]); // Son öğeyi başa taşı
+        carousel.classList.add("prev");
     }
 
-    afterSlideChange(); // Log the active slide index
+    // Geçiş tamamlanınca tekrar aç
+    requestAnimationFrame(() => {
+        setTimeout(() => {
+            isTransitioning = false;
+            carousel.classList.remove("next");
+            carousel.classList.remove("prev");
+        }, TIME_RUNNING);
+    });
 
-    // Geçiş tamamlandıktan sonra tekrar hareket izni ver
-    setTimeout(() => {
-        isTransitioning = false;
-        carousel.classList.remove("next");
-        carousel.classList.remove("prev");
-    }, TIME_RUNNING);
+    afterSlideChange();
 }
 
-// Logs the current active slide's original index
+// **Otomatik Slayt Geçişi**
+function startAutoSlide() {
+    autoNextTimeout = setTimeout(() => {
+        if (!isTransitioning) {
+            nextBtn.click();
+        }
+    }, TIME_AUTO_NEXT);
+}
+
+// **Slayt Bilgilerini Güncelle**
 function afterSlideChange() {
     const slideNumberElement = document.querySelector(".slide-number");
     if (slideNumberElement) slideNumberElement.remove();
 
-    const sliderItems = Array.from(list.querySelectorAll(".item")); // Get the current visible order of items
-    const activeItem = parseInt(
-        sliderItems[1].querySelector(".title").getAttribute("data-item")
-    ); // The first visible item is the active one
+    const sliderItems = Array.from(list.querySelectorAll(".item"));
+    const activeItem = parseInt(sliderItems[1].querySelector(".title").getAttribute("data-item"));
 
-    const activeIndex =
-        activeItem < 10 ? `0${activeItem}` : activeItem.toString();
+    const activeIndex = activeItem < 10 ? `0${activeItem}` : activeItem.toString();
 
     const div = document.createElement("div");
     div.classList.add("slide-number");
@@ -94,27 +98,22 @@ function afterSlideChange() {
     resetCarouselState();
 }
 
-// Updates the progress bar based on the active slide index
+// **İlerleme Çubuğunu Güncelle**
 function updateProgressBar() {
     const totalSlides = items.length;
+    const sliderItems = Array.from(list.querySelectorAll(".item"));
+    const activeItem = parseInt(sliderItems[0].querySelector(".title").getAttribute("data-item")) + 1;
+    const progressPercentage = (activeItem / totalSlides) * 100;
 
-    const sliderItems = Array.from(list.querySelectorAll(".item")); // Get the current visible order of items
-    const activeItem = parseInt(sliderItems[0].querySelector(".title").getAttribute("data-item")) + 1; // The first visible item is the active one
-
-    const progressPercentage = (activeItem / totalSlides) * 100; // Calculate progress percentage
-    progressBar.style.width = `${progressPercentage}%`; // Update the progress bar's width
+    progressBar.style.transition = "width 0.3s ease-in-out";
+    progressBar.style.width = `${progressPercentage}%`;
 }
 
-// Resets the carousel state after navigation
+// **Carousel Durumunu Sıfırla**
 function resetCarouselState() {
-    // Clear existing timeouts for transitions and auto-slide
     clearTimeout(transitionTimeout);
     clearTimeout(autoNextTimeout);
 
-    // Restart the auto-slide timer only if not transitioning
-    autoNextTimeout = setTimeout(() => {
-        if (!isTransitioning) {
-            nextBtn.click();
-        }
-    }, TIME_AUTO_NEXT);
+    // Yeni slayt değişimi başlat
+    startAutoSlide();
 }
