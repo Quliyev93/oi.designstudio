@@ -34,7 +34,6 @@ body,
     transition: all var(--transition-time);
     will-change: transform, opacity;
     transform: translate3d(0, 0, 0);
-    /* GPU hızlandırmayı açar */
 }
 
 .carousel .list .item::after {
