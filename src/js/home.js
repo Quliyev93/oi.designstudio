@@ -7,15 +7,15 @@ const items = Array.from(document.querySelectorAll(".item"));
 const runningTimeBar = document.querySelector(".carousel .timeRunning");
 
 // Zaman ayarları
-const TIME_RUNNING = 1500; // Geçiş süresi
-const TIME_AUTO_NEXT = 3500; // Otomatik slayt süresi
+const TIME_RUNNING = 1500; // Geçiş süresi (ms)
+const TIME_AUTO_NEXT = 3500; // Otomatik slayt süresi (ms)
 
 // Zamanlayıcı değişkenleri
 let transitionTimeout;
 let autoNextTimeout;
-let isTransitioning = false; // Geçiş sırasında engelleme için
+let isTransitioning = false; // Geçiş sırasında kontrol
 
-// Progress bar oluştur ve ekle
+// **Progress bar oluştur ve ekle**
 const arrowsDiv = document.querySelector(".arrows");
 const progressBarContainer = document.createElement("div");
 progressBarContainer.className = "progress-bar-container";
@@ -35,36 +35,32 @@ items.forEach((item, index) => {
     item.querySelector(".title").setAttribute("data-item", index + 1);
 });
 
-// Otomatik slayt değişimini başlat
+// **Otomatik slayt geçişini başlat**
 startAutoSlide();
-
-// Slayt değişimi sonrası güncelle
-afterSlideChange();
+afterSlideChange(); // İlk durumu ayarla
 
 // **Slayt Değiştirme Fonksiyonu**
 function handleSliderNavigation(direction) {
-    if (isTransitioning) return; // Eğer geçiş devam ediyorsa, yeni bir geçişi engelle
+    if (isTransitioning) return; // Eğer geçiş devam ediyorsa yeni bir geçişi engelle
 
-    isTransitioning = true; // Geçiş başladığında kilitle
+    isTransitioning = true; // Geçiş başladı
+    clearTimeout(autoNextTimeout); // Otomatik geçişi durdur
 
     const sliderItems = list.querySelectorAll(".item");
 
     if (direction === "next") {
         list.appendChild(sliderItems[0]); // İlk öğeyi sona taşı
-        carousel.classList.add("next");
+        carousel.style.transform = "translateX(-100%)";
     } else if (direction === "prev") {
         list.prepend(sliderItems[sliderItems.length - 1]); // Son öğeyi başa taşı
-        carousel.classList.add("prev");
+        carousel.style.transform = "translateX(100%)";
     }
 
-    // Geçiş tamamlanınca tekrar aç
-    requestAnimationFrame(() => {
-        setTimeout(() => {
-            isTransitioning = false;
-            carousel.classList.remove("next");
-            carousel.classList.remove("prev");
-        }, TIME_RUNNING);
-    });
+    // **Geçiş tamamlanınca tekrar aç**
+    setTimeout(() => {
+        isTransitioning = false;
+        carousel.style.transform = "translateX(0)"; // Konumu sıfırla
+    }, TIME_RUNNING);
 
     afterSlideChange();
 }
