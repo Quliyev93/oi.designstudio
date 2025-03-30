@@ -137,8 +137,8 @@ function sendMessageContact() {
         let mailtoLink = "mailto:izzetovçiyev430@gmail.com?subject=" +
             encodeURIComponent("Yeni Mesaj") +
             "&body=" +
-            encodeURIComponent("Ad: " + nameSendElement + "%0A" +
-                "Email: " + emailSendElement + "%0A" +
+            encodeURIComponent("Ad: " + nameSendElement + "\n" +
+                "Email: " + emailSendElement + "\n" +
                 "Mesaj: " + messageSendElement);
 
         window.location.href = mailtoLink;
