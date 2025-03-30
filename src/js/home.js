@@ -13,6 +13,7 @@ const TIME_AUTO_NEXT = 3500; // Auto-slide duration
 // Initialize timeout variables
 let transitionTimeout;
 let autoNextTimeout;
+let isTransitioning = false; // Geçiş sırasında yeni slayda geçişi engellemek için
 
 // Create and append the progress bar
 const arrowsDiv = document.querySelector(".arrows");
@@ -35,22 +36,21 @@ items.forEach((item, index) => {
 });
 
 // Automatically navigate to the next slide
-requestAnimationFrame(() => {
-    autoNextTimeout = setTimeout(() => {
-        if (!isTransitioning) {
-            nextBtn.click();
-        }
-    }, TIME_AUTO_NEXT);
-});
+autoNextTimeout = setTimeout(() => {
+    if (!isTransitioning) {
+        nextBtn.click();
+    }
+}, TIME_AUTO_NEXT);
 
 // Start the initial running time animation and progress bar
-
 afterSlideChange();
-
-// Resets the running time animation
 
 // Handles slider navigation (next/prev)
 function handleSliderNavigation(direction) {
+    if (isTransitioning) return; // Eğer geçiş devam ediyorsa, yeni bir geçişi engelle
+
+    isTransitioning = true; // Yeni bir geçiş başlatıldığında geçiş durumunu güncelle
+
     const sliderItems = list.querySelectorAll(".item"); // Get all current items in the list
 
     if (direction === "next") {
@@ -63,11 +63,12 @@ function handleSliderNavigation(direction) {
 
     afterSlideChange(); // Log the active slide index
 
-    requestAnimationFrame(() => {
-        setTimeout(() => {
-            isTransitioning = false;
-        }, TIME_RUNNING); // Geçiş süresi kadar bekle
-    });
+    // Geçiş tamamlandıktan sonra tekrar hareket izni ver
+    setTimeout(() => {
+        isTransitioning = false;
+        carousel.classList.remove("next");
+        carousel.classList.remove("prev");
+    }, TIME_RUNNING);
 }
 
 // Logs the current active slide's original index
@@ -88,8 +89,6 @@ function afterSlideChange() {
     div.textContent = `${activeIndex}/${sliderItems.length}`;
 
     arrowsDiv.appendChild(div);
-
-
 
     updateProgressBar();
     resetCarouselState();
@@ -112,24 +111,10 @@ function resetCarouselState() {
     clearTimeout(transitionTimeout);
     clearTimeout(autoNextTimeout);
 
-    // Remove the transition class after the animation duration
-
-    requestAnimationFrame(() => {
-        transitionTimeout = setTimeout(() => {
-            carousel.classList.remove("next");
-            carousel.classList.remove("prev");
-        }, TIME_RUNNING);
-    });
-
-    // Restart the auto-slide timer
-
-    requestAnimationFrame(() => {
-        autoNextTimeout = setTimeout(() => {
-            if (!isTransitioning) {
-                nextBtn.click();
-            }
-        }, TIME_AUTO_NEXT);
-    });
-
+    // Restart the auto-slide timer only if not transitioning
+    autoNextTimeout = setTimeout(() => {
+        if (!isTransitioning) {
+            nextBtn.click();
+        }
+    }, TIME_AUTO_NEXT);
 }
-
