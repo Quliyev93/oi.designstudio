@@ -35,9 +35,13 @@ items.forEach((item, index) => {
 });
 
 // Automatically navigate to the next slide
-autoNextTimeout = setTimeout(() => {
-    nextBtn.click();
-}, TIME_AUTO_NEXT);
+requestAnimationFrame(() => {
+    autoNextTimeout = setTimeout(() => {
+        if (!isTransitioning) {
+            nextBtn.click();
+        }
+    }, TIME_AUTO_NEXT);
+});
 
 // Start the initial running time animation and progress bar
 
@@ -58,6 +62,12 @@ function handleSliderNavigation(direction) {
     }
 
     afterSlideChange(); // Log the active slide index
+
+    requestAnimationFrame(() => {
+        setTimeout(() => {
+            isTransitioning = false;
+        }, TIME_RUNNING); // Geçiş süresi kadar bekle
+    });
 }
 
 // Logs the current active slide's original index
@@ -103,15 +113,23 @@ function resetCarouselState() {
     clearTimeout(autoNextTimeout);
 
     // Remove the transition class after the animation duration
-    transitionTimeout = setTimeout(() => {
-        carousel.classList.remove("next");
-        carousel.classList.remove("prev");
-    }, TIME_RUNNING);
+
+    requestAnimationFrame(() => {
+        transitionTimeout = setTimeout(() => {
+            carousel.classList.remove("next");
+            carousel.classList.remove("prev");
+        }, TIME_RUNNING);
+    });
 
     // Restart the auto-slide timer
-    autoNextTimeout = setTimeout(() => {
-        nextBtn.click();
-    }, TIME_AUTO_NEXT);
+
+    requestAnimationFrame(() => {
+        autoNextTimeout = setTimeout(() => {
+            if (!isTransitioning) {
+                nextBtn.click();
+            }
+        }, TIME_AUTO_NEXT);
+    });
 
 }
 
