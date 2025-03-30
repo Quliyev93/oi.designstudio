@@ -134,8 +134,8 @@ function sendMessageContact() {
 
     if (nameSendElement.trim() !== "" && emailSendElement.trim() !== "" && emailSendElement.trim().includes("@") && messageSendElement.trim() !== "") {
 
-        let mailtoLink = "mailto:izzetovçiyev430@gmail.com?subject=" +
-            encodeURIComponent("Yeni Mesaj") +
+        let mailtoLink = "mailto:izzetovciyev430@gmail.com?subject=" +
+            encodeURIComponent("Yeni Mesajın var əxi") +
             "&body=" +
             encodeURIComponent("Ad: " + nameSendElement + "\n" +
                 "Email: " + emailSendElement + "\n" +
