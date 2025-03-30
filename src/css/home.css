@@ -5,6 +5,11 @@ body,
     width: 100%;
 }
 
+.item img {
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+}
 
 .carousel {
     width: 100%;
