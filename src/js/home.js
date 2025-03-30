@@ -40,16 +40,10 @@ autoNextTimeout = setTimeout(() => {
 }, TIME_AUTO_NEXT);
 
 // Start the initial running time animation and progress bar
-resetAnimation();
+
 afterSlideChange();
 
 // Resets the running time animation
-function resetAnimation() {
-    runningTimeBar.style.animation = "none"; // Remove current animation
-    runningTimeBar.offsetHeight; // Trigger reflow to restart animation
-    runningTimeBar.style.animation = `runningTime ${TIME_AUTO_NEXT / 1000
-        }s linear forwards`; // Restart animation
-}
 
 // Handles slider navigation (next/prev)
 function handleSliderNavigation(direction) {
@@ -119,16 +113,5 @@ function resetCarouselState() {
         nextBtn.click();
     }, TIME_AUTO_NEXT);
 
-    // Reset the running time bar animation
-    document.addEventListener("DOMContentLoaded", function () {
-        const runningTimeBar = document.querySelector(".carousel .timeRunning");
-
-        if (!runningTimeBar) {
-            console.error("Hata: .timeRunning elementi bulunamadı!");
-            return;
-        }
-
-        resetAnimation();
-    });
 }
 
