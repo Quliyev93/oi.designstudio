@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>oi.designstudio</title>
-    <link rel="stylesheet" href="./src/css/single.css">
+    <link rel="stylesheet" href="./src/css/all_design.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -38,7 +38,7 @@
                 <ul id="navbarUl">
                     <div class="nav_logo">
                         <h1 id="navLogo">LOGO </h1>
-                        <i id="closeNavbar2" class="fa-solid fa-x"></i>
+                        <i id="closeNavbar3" class="fa-solid fa-x"></i>
                     </div>
                     <li>
                         <a class="lists" href="./index.html"><i class="fa-solid fa-house"></i> Ana Səhifə</a>
@@ -99,28 +99,33 @@
                     </li>
                 </ul>
             </div>
-            <div class="bar_btn">
-                <i id="navbarBtn2" class="fa-solid fa-bars-staggered"></i>
+            <div class="nav_right">
+                <div class="nav_search">
+                    <input class="searchInputSpeed" id="input" type="search">
+                    <i class="searchBtnCL fa-solid fa-magnifying-glass"></i>
+                    <i id="searchBtn" class="searchBtnCL fa-brands fa-searchengin"></i>
+                </div>
+                <div class="bar_btn">
+                    <i id="navbarBtn3" class="fa-solid fa-bars-staggered"></i>
+                </div>
             </div>
-
-
         </div>
     </nav>
 
-    <div class="single">
-        <div class="single_container">
-            <div class="single_details" id="designDetails">
-                <div class="single_details_head">
-                    <h1 id="designName"></h1>
-                    <p id="designDate"></p>
-                </div>
-                <p id="designCategory"></p>
-                <img id="designImage" alt="Design Image" />
-                <div class="single_details_body">
+    <div class="all">
 
-                </div>
+        <div class="design_category_container">
+            <div class="design_category">
+                <p id="cat">All</p>
+                <p id="catIn">Interior</p>
+                <p id="catAr">Architecture</p>
+                <p id="catEx">Exterior</p>
             </div>
         </div>
+        <div id="designContainer" class="design_container">
+
+        </div>
+
     </div>
 
     <div class="footer">
@@ -192,26 +197,9 @@
     </div>
 
 
-    <script>
-
-        const urlParams = new URLSearchParams(window.location.search);
-
-        // Parametreleri değişkenlere ata
-        const Name = urlParams.get("name");
-        const par = urlParams.get("par");
-        const date = urlParams.get("date");
-        const img = urlParams.get("img");
-
-        // HTML'de ilgili yerlere verileri ekle
-        document.getElementById("designName").textContent = Name;
-        document.getElementById("designCategory").textContent = par;
-        document.getElementById("designDate").textContent = date;
-        document.getElementById("designImage").src = img;
-
-    </script>
     <script src="./src/js/work.js"></script>
     <script src="./src/js/main.js"></script>
-    <script src="./src/js/designPage_main.js"></script>
+    <script src="./src/js/designCategory.js"></script>
 </body>
 
 </html>

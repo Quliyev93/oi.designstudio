@@ -11,11 +11,33 @@
     z-index: 3;
 }
 
+.about_left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: 1s;
+}
+
+.about_left.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
 .about_left img {
     width: 700px;
     height: 500px;
     object-fit: cover;
     border-radius: 10px;
+}
+
+.about_right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: 1s;
+}
+
+.about_right.active {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .about_right_card {

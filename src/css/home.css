@@ -87,6 +87,14 @@ img {
     color: #fff;
     margin-bottom: 10px;
     margin-top: 0;
+    opacity: 0;
+    transition: 1s;
+    transform: translateY(20px);
+}
+
+.creative-carousal--hero .carousel-slider .swiper-slide .inner h2.active {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .creative-carousal--hero .carousel-slider .swiper-slide .inner a {
@@ -104,6 +112,14 @@ img {
     -ms-transition: 0.25s ease-in-out;
     -o-transition: 0.25s ease-in-out;
     transition: 0.25s ease-in-out;
+    opacity: 0;
+    transition: 1s;
+    transform: translateY(20px);
+}
+
+.creative-carousal--hero .carousel-slider .swiper-slide .inner a.active {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .creative-carousal--hero .carousel-slider .swiper-slide .inner a:hover {

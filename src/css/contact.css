@@ -9,6 +9,14 @@
 
 .contact_title {
     padding: 50px 0;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: 1s;
+}
+
+.contact_title.active {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .contact_container {
@@ -20,6 +28,14 @@
 
 .contact_left {
     width: 500px;
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: 1s;
+}
+
+.contact_left.active {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .contact_left form {
@@ -66,6 +82,14 @@
 
 .contact_right {
     width: 700px;
+    opacity: 0;
+    transform: translateX(40px);
+    transition: 1s;
+}
+
+.contact_right.active {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .contact_right img {
@@ -79,6 +103,12 @@
     width: 100%;
     padding: 50px 0 0 0;
     height: 700px;
+    opacity: 0;
+    transition: 1s;
+}
+
+.contact_map.active {
+    opacity: 1;
 }
 
 .contact_map iframe {

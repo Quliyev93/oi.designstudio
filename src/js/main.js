@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("scroll", () => {
 
-    if (window.scrollY > 650) {
+    if (window.scrollY > 250) {
         nav.classList.add("scrolled");
         navCenterList.forEach(navList => {
             navList.classList.add("scrolled2")
@@ -101,16 +101,14 @@ const target = document.querySelectorAll(".target");
 const callBack = (entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.classList.add("active")
-        }
-        else {
-            entry.target.classList.remove("active")
+            entry.target.classList.add("active");
+            observer.unobserve(entry.target);
         }
     })
 }
 
 const options = {
-    threshold: 0
+    threshold: 0.2
 }
 
 

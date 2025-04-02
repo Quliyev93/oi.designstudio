@@ -1,60 +1,195 @@
-.design {
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Mr+De+Haviland&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fondamento:ital@0;1&display=swap');
+
+@import url(./navbar.css);
+@import url(./film.css);
+@import url(./footer.css);
+
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    text-decoration: none;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
     background: #fff;
+}
+
+:root {
+    --left-position: 55%;
+    --transition-time: 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    --main-color: #872f61;
+    --second-color: #4e4e4e;
+}
+
+.button_main {
+    font-size: 16px;
+    background: none;
+    border: none;
+    position: relative;
+
+    --padding-block: 1rem;
+    --padding-inline: 2rem;
+    --arrow: 5rem;
+    --arrow-stripes: .8rem;
+
+    padding: var(--padding-block) var(--padding-inline);
+    padding-right: calc(var(--padding-inline) + var(--arrow));
+    filter: drop-shadow(4px 4px 4px hsl(0 0% 0% / .5));
+    color: white;
+    border-radius: 999vmax 0 0 999vmax;
+    cursor: pointer;
+    transition: all 125ms
+}
+
+.button_main:active {
+    scale: .975;
+}
+
+.button_main:hover::after {
+    animation-play-state: paused;
+}
+
+.button_main::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: -1;
+    background-color: var(--main-color);
+    background-image: linear-gradient(transparent 50%, hsl(0 0% 0% / .5) 0);
+    animation: mask-position 5s linear infinite;
+
+    --conic-stops: black 0 90deg, #0000 0;
+    --linear-stops: #0000 0px, black 1px var(--arrow-stripes), #0000 calc(var(--arrow-stripes) + 1px) calc(var(--arrow-stripes) * 2);
+    --mask-image:
+        conic-gradient(from 225deg at right, var(--conic-stops)),
+        conic-gradient(from 225deg at right, var(--conic-stops)),
+        repeating-linear-gradient(-135deg, var(--linear-stops)),
+        repeating-linear-gradient(-45deg, var(--linear-stops));
+    --mask-position: 0 0, 0 0, 0 0, 0 100%;
+    --mask-position-to: 0, 0, -100% 0, -100% 100%;
+    --mask-size: calc(100% - var(--arrow)) 100%, 100%, 200% 50%, 200% 50%;
+    --mask-repeat: no-repeat, repeat, repeat-x, repeat-x;
+
+    -webkit-mask-image: var(--mask-image);
+    -webkit-mask-position: var(--mask-position);
+    -webkit-mask-size: var(--mask-size);
+    -webkit-mask-repeat: var(--mask-repeat);
+    -webkit-mask-composite: source-over, source-out, source-over, source-over;
+
+    mask-image: var(--mask-image);
+    mask-position: var(--mask-position);
+    mask-size: var(--mask-size);
+    mask-repeat: var(--mask-repeat);
+    mask-composite: add, subtract, add, add;
+}
+
+@keyframes mask-position {
+    to {
+        -webkit-mask-position: var(--mask-position-to);
+        mask-position: var(--mask-position-to);
+    }
+}
+
+
+
+
+.svg-icon {
+    width: 18px;
+    height: 18px;
+    margin-left: 5px;
+    fill: grey;
+    transform: rotate(-45deg);
+    transition: transform 0.5s ease-out;
+    font-weight: bolder;
+}
+
+.button_main:hover .svg-icon {
+    transform: rotate(0deg);
+    fill: var(--main-color);
+}
+
+.text-reveal {
     display: flex;
-    align-items: center;
-    justify-content: start;
-    flex-direction: column;
-    padding-bottom: 80px;
-}
-
-.design_title {
-    color: #000;
-    background: #fff;
-    font-size: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    opacity: 0;
-    transform: translateY(-30px);
-    transition: 1s;
-}
-
-.design_title.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.design_title h3 {
-    font-size: 25px;
-}
-
-.text-reveal .word {
+    gap: 0.5rem;
     font-size: 40px;
+    font-weight: bold;
+    color: var(--main-color);
+    overflow: hidden;
+    flex-wrap: wrap;
 }
 
-.designs {
+.word {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateX(-50px);
+    animation: slideIn 5s ease infinite;
+}
+
+.word:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.word:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.word:nth-child(3) {
+    animation-delay: 0.8s;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+        filter: blur(10px);
+    }
+
+    20% {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0);
+    }
+
+    80% {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0);
+    }
+
+
+    100% {
+        opacity: 0;
+        transform: translateX(-50px);
+        filter: blur(10px);
+    }
+}
+
+
+
+
+
+.design_container {
     padding: 0 100px;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 40px;
+    min-height: 100vh;
 }
-
 
 .design_card {
     position: relative;
     height: 500px;
     border-radius: 5px;
     overflow: hidden;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: 1s;
-}
-
-.design_card.active{
-    opacity: 1;
-    transform: translateY(0);
 }
 
 .design_card img {
@@ -202,6 +337,7 @@
 }
 
 .design_category {
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 20px;
@@ -213,14 +349,19 @@
     font-size: 20px;
 }
 
-.btn_design {
-    margin-top: 20px;
-    width: 300px;
-    text-align: center;
+.all {
+    padding: 100px 0;
+    background: #c9c9c9;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 50px;
+    flex-direction: column;
+    width: 100%;
+}
+
+.design_category_container {
+    display: flex;
+    align-items: center;
 }
 
 @media only screen and (max-width:1330px) {
@@ -252,7 +393,7 @@
 }
 
 @media only screen and (max-width:1100px) {
-    .designs {
+    .design_container {
         grid-template-columns: repeat(2, 1fr);
         padding: 0 50px;
     }
@@ -272,7 +413,7 @@
 
 
 @media only screen and (max-width:768px) {
-    .designs {
+    .design_container {
         grid-template-columns: repeat(1, 1fr);
         padding: 0 80px;
     }
@@ -313,7 +454,7 @@
 }
 
 @media only screen and (max-width:600px) {
-    .designs {
+    .design_container {
         grid-template-columns: repeat(1, 1fr);
         padding: 0 50px;
     }
@@ -328,7 +469,7 @@
 }
 
 @media only screen and (max-width:400px) {
-    .designs {
+    .design_container {
         grid-template-columns: repeat(1, 1fr);
         padding: 0 50px;
     }
@@ -337,3 +478,5 @@
         height: 400px;
     }
 }
+
+.nav {}

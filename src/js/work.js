@@ -152,7 +152,7 @@ function addButtonEventListeners() {
 
 //*----------------search input design------------------- */
 const searchBtnCL = document.querySelectorAll(".searchBtnCL");
-console.log(searchBtnCL);
+
 if (inputElementSpeed) {
     searchBtnCL.forEach(searchBtn => {
         searchBtn.addEventListener("click", () => {
